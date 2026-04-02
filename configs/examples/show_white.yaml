@@ -1,0 +1,37 @@
+includes:
+  - ../templates/camera_default.yaml
+  - ../templates/integrator_path.yaml
+  - ../templates/campose_single.yaml
+
+Project: MultiView
+project_name: show_white
+output_folder: ./result/examples
+
+Scene:
+  type: CustomScene
+  source_path: ./resources/examples
+
+  element:
+    - type: white_mesh
+      name: hero_object
+      mesh_filename: cow.ply
+      reflectance: 0.6
+    - type: diffuse_rectangle
+      name: ground_plane
+      reflectance: 1.0
+      scale: 6.0
+      translate: [0, 0, -0.935]
+    - type: rectangle_area_light
+      name: area_light_left
+      intensity: 8.0
+      scale: 0.4
+      translate: [-0.8, -0.5, 2.0]
+    - type: rectangle_area_light
+      name: area_light_right
+      intensity: 8.0
+      scale: 0.4
+      translate: [0.8, 0.5, 2.5]
+    - type: constant_environment_light
+      intensity: 1.0
+
+record_camera: false

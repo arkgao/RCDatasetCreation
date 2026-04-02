@@ -1,0 +1,22 @@
+includes:
+  - ../templates/camera_default.yaml
+  - ../templates/integrator_path.yaml
+  - ../templates/campose_single.yaml
+
+Project: MultiView
+project_name: vertex_color_demo
+output_folder: ./result/examples
+
+Scene:
+  type: CustomScene
+  source_path: ./resources/examples
+
+  element:
+    - type: vertex_color_mesh
+      name: hero_object
+      mesh_filename: cow.ply
+    - type: constant_environment_light
+      intensity: 1.0
+
+gen_albedo: true
+record_camera: false

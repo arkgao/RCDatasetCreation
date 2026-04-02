@@ -1,0 +1,37 @@
+includes:
+  - ../templates/camera_default.yaml
+  - ../templates/integrator_path.yaml
+
+Project: MovingPointLight
+project_name: dynamic_light_svbrdf
+output_folder: ./result/examples
+
+img_num: 48
+light_move_distance: 2.0
+light_move_direction: [1, 0, 0]
+export_video: true
+video_fps: 24
+
+Scene:
+  type: CustomScene
+  source_path: ./resources/examples
+
+  element:
+    - type: svbrdf_rectangle
+      name: svbrdf_rect
+      svbrdf_filename: SVBRDF.png
+      scale: 1.0
+    - type: point_light
+      name: point_light
+      position: [-1.0, 0, 1.5]
+      intensity: 30.0
+
+Camera:
+  fov: 90
+
+CamPose:
+  type: SinglePose
+  target: [0, 0, 0]
+  origin: [0, 0, 1]
+  up: [0, 1, 0]
+  shift: [0, 0, 0]

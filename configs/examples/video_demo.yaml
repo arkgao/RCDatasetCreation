@@ -1,0 +1,35 @@
+includes:
+  - ../templates/camera_default.yaml
+  - ../templates/integrator_path.yaml
+
+Project: MultiView
+project_name: video_demo
+output_folder: ./result/examples
+export_video: true
+video_fps: 60
+record_camera: false
+
+Scene:
+  type: CustomScene
+  source_path: ./resources/examples
+
+  element:
+    - type: white_mesh
+      name: hero_object
+      mesh_filename: cow.ply
+      reflectance: 0.6
+    - type: envmap_light
+      envmap_filename: envmap.exr
+      scale: 1.0
+      z_up: true
+
+CamPose:
+  type: SphericalGridPose
+  target: [0, 0, 0]
+  theta_range: [55, 55]
+  theta_num: 1
+  phi_range: [0, 360]
+  phi_num: 60
+  r: 3.0
+  shift: [0, 0, 0]
+  up: [0, 0, 1]
