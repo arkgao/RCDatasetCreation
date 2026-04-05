@@ -14,8 +14,3 @@ def build_scene(conf):
 def build_pose_generator(conf):
     cam_cls = CAMPOSE_REGISTRY.get(conf['type'])
     return cam_cls(conf)
-
-
-def build_cam_pose(conf):
-    """Deprecated compatibility alias for build_pose_generator()."""
-    return build_pose_generator(conf)

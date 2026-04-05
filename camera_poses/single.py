@@ -15,11 +15,6 @@ class SinglePose:
         self.pose_list = [self._pose]
         self.img_num = 1
 
-    @property
-    def pose(self):
-        """Deprecated: use pose_list[0] instead. Kept for backward compatibility."""
-        return self._pose
-
     def _build_pose(self):
         if 'theta' in self.conf:
             theta = self.conf.get('theta',45.0)

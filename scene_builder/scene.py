@@ -48,12 +48,6 @@ class CustomScene(Scene):
         self.attach_integrator()
         self.scene = self.build_mitsuba_scene()
 
-    @classmethod
-    def append_element(cls, func):
-        # Backward compatibility shim for legacy callers.
-        ELEMENT_REGISTRY.register(func)
-        return func
-
     def attach_integrator(self):
         """Load integrator. Use mitsuba_utils.wrap_with_aov for AOV support."""
         conf = self.conf['integrator']
@@ -61,15 +55,13 @@ class CustomScene(Scene):
         self.scene_dict['integrator'] = mi.load_dict(integrator_conf)
 
     def _iter_element_configs(self, elements_conf):
-        """Yield (element_name, params_dict) tuples from either dict or list config."""
-        if isinstance(elements_conf, (list, ListConfig)):
-            for conf in elements_conf:
-                element_name = conf['type']
-                params = dict(conf)
-                params.pop('type', None)
-                if 'node' in params and 'name' not in params:
-                    params['name'] = params['node']
-                yield element_name, params
-        else:
-            for element_name, conf in elements_conf.items():
-                yield element_name, dict(conf)
+        """Yield (element_name, params_dict) tuples from the scene element list."""
+        if not isinstance(elements_conf, (list, ListConfig)):
+            raise TypeError('Scene.element must be a list of element configs.')
+        for conf in elements_conf:
+            element_name = conf['type']
+            params = dict(conf)
+            params.pop('type', None)
+            if 'node' in params and 'name' not in params:
+                params['name'] = params['node']
+            yield element_name, params

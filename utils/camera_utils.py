@@ -82,3 +82,33 @@ def get_extrinsic_matrix(target, origin, up, coord_type='opencv'):
     extrinsic[:, 3] = t
 
     return extrinsic
+
+
+def gen_rays(camera_K, camera_R, camera_t, W, H):
+    """
+    Generate rays at world space from one camera.
+
+    Args:
+        camera_K: 3x3 intrinsic matrix
+        camera_R: 3x3 rotation matrix (world-to-camera)
+        camera_t: 3D translation vector
+        W: Image width
+        H: Image height
+
+    Returns:
+        rays_o: (H, W, 3) ray origins
+        rays_v: (H, W, 3) ray directions
+    """
+    u = np.linspace(0, W - 1, W)
+    v = np.linspace(0, H - 1, H)
+    pixels_u, pixels_v = np.meshgrid(u, v, indexing='xy')
+    p = np.stack([pixels_u, pixels_v, np.ones_like(pixels_v)], axis=-1)  # H, W, 3
+    intrinsic_inv = np.linalg.inv(camera_K)
+    p = np.matmul(intrinsic_inv[None, None, :, :], p[:, :, :, None]).squeeze()
+    rays_v = p / np.linalg.norm(p, ord=2, axis=-1).reshape(H, W, 1)
+
+    c2w_R = np.linalg.inv(camera_R)
+    rays_v = np.matmul(c2w_R[None, None, :3, :3], rays_v[:, :, :, None]).squeeze()
+    rays_origin = -np.matmul(c2w_R, camera_t)  # 3
+    rays_o = np.tile(rays_origin, [H, W, 1])
+    return rays_o, rays_v
