@@ -134,6 +134,13 @@ Tracer:
 - `mitsuba` is the default and recommended option.
 - `trimesh` is kept for reproducing the older CPU-based pipeline.
 
+The two backends differ in how ray-mesh intersection is performed:
+
+- `trimesh` uses an external mesh intersection path based on `trimesh`, typically accelerated with `pyembree` on CPU. This matches the earlier dataset generation workflow more closely and is kept for reproduction.
+- `mitsuba` reuses Mitsuba's built-in scene intersection interface directly inside the rendering stack. It is better integrated with the current pipeline and is typically faster, so it is the default choice in this release.
+
+Both backends trace refraction through the transparent mesh and produce the same type of outputs, namely outgoing directions and background correspondence. The choice mainly affects the implementation path, runtime characteristics, and how closely the behavior matches the older rendering pipeline.
+
 ## Notes on Reproduction
 
 - The released code filters correspondences that project outside the image plane.
