@@ -32,37 +32,3 @@ class SinglePose:
             'target': target,
             'up': up,
         }
-
-
-@CAMPOSE_REGISTRY.register()
-class RandomPose:
-    def __init__(self, conf):
-        self.conf = conf
-        self.theta_range = conf.get('theta_range', default = [20,70])
-        self.r_range = conf.get('r_range',default=[1.0,1.2])
-        self.shift =np.array(self.conf.get('shift',[0,0,0]))
-        self.target = conf.get('target', default = [0,0,0])
-
-    def random_sample(self):
-        # random sample a camera location within the range
-        pose_list = []
-        r = np.random.uniform(self.r_range[0], self.r_range[1])
-        theta_range = [np.cos(np.deg2rad(self.theta_range[1])), np.cos(np.deg2rad(self.theta_range[0]))]
-        v = np.random.uniform(*theta_range)
-        theta = np.rad2deg(np.arccos(v))
-        phi = np.random.uniform(0, 360)
-        position = spherical2cartesian(theta, phi, r)
-        position += self.shift
-        dic = {}
-        dic['origin'] = position
-        dic['target'] = self.target
-        dic['up'] = [0,0,1]
-
-        return dic
-
-    def random_multi_sample(self, sample_num):
-        pose_list = []
-        for _ in range(sample_num):
-            dic = self.random_sample()
-            pose_list.append(dic)
-        return pose_list

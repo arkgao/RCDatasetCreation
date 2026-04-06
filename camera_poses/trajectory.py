@@ -9,12 +9,12 @@ from utils.registry import CAMPOSE_REGISTRY
 class SpiralPose:
     def __init__(self, conf):
         self.conf = conf
-        self.total_num = conf.get('total_num', default = 60)
-        self.phi_range = conf.get('phi_range', default = [0, 360])
-        self.theta_range = conf.get('theta_range', default = [20,70])
+        self.total_num = conf.get('total_num', 60)
+        self.phi_range = conf.get('phi_range', [0, 360])
+        self.theta_range = conf.get('theta_range', [20, 70])
         self.r = conf['r']
-        self.shift =np.array(self.conf.get('shift',[0,0,0]))
-        self.target = conf.get('target', default = [0,0,0])
+        self.shift = np.array(self.conf.get('shift', [0, 0, 0]))
+        self.target = conf.get('target', [0, 0, 0])
 
         self.pose_list = self.spiral_sample()
         self.img_num = len(self.pose_list)
@@ -100,14 +100,14 @@ class UniformSpiralPose:
 class OrbitVideoPose:
     def __init__(self,conf):
         self.conf = conf
-        self.phi_range = conf.get('phi_range', default = [0, 360])
-        circle_time = conf.get('circle_time', default = 10)
+        self.phi_range = conf.get('phi_range', [0, 360])
+        circle_time = conf.get('circle_time', 10)
         self.phi_num = int(circle_time * 60)
-        self.theta_range = conf.get('theta_range', default = [20,70])
-        self.theta_num = conf.get('theta_num', default = 6)
+        self.theta_range = conf.get('theta_range', [20, 70])
+        self.theta_num = conf.get('theta_num', 6)
         self.r = conf['r']
-        self.shift =np.array(self.conf.get('shift',[0,0,0]))
-        self.target = conf.get('target', default = [0,0,0])
+        self.shift = np.array(self.conf.get('shift', [0, 0, 0]))
+        self.target = conf.get('target', [0, 0, 0])
 
         self.pose_list = self.video_sample()
         self.img_num = len(self.pose_list)
@@ -144,10 +144,10 @@ class OrbitVideoPose:
 class ZoomInPose:
     def __init__(self, conf) -> None:
         self.conf = conf
-        self.init_position = conf.get('init_position', default = [1,0,0])
-        self.end_position = conf.get('end_position', default = [0,0,0])
-        self.sample_num = conf.get('sample_num', default = 6)
-        self.target = conf.get('target', default = [0,0,0])
+        self.init_position = conf.get('init_position', [1, 0, 0])
+        self.end_position = conf.get('end_position', [0, 0, 0])
+        self.sample_num = conf.get('sample_num', 6)
+        self.target = conf.get('target', [0, 0, 0])
         self.pose_list = self.interp_location()
         self.img_num = len(self.pose_list)
 

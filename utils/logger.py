@@ -44,6 +44,11 @@ class RenderLogger:
         self.image_filenames = []
         self.rotation_list = []
 
+    def close(self):
+        """Close the log file handle."""
+        if self.log_file and not self.log_file.closed:
+            self.log_file.close()
+
     def write(self, strs):
         """Write log message to file."""
         self.log_file.write('%s\n' % strs)

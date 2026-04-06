@@ -75,7 +75,7 @@ def scandir(dir_path, suffix=None, recursive=False, full_path=False, getDirs=Fal
 
     def _scandir(dir_path, suffix, recursive):
         for entry in os.scandir(dir_path):
-            if not entry.name.startswith('.') and entry.is_file() or getDirs:
+            if (not entry.name.startswith('.')) and (entry.is_file() or getDirs):
                 if full_path:
                     return_path = entry.path
                 else:

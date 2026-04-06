@@ -55,18 +55,18 @@ class SphericalGridPose:
 class SphericalRandomPose:
     def __init__(self, conf):
         self.conf = conf
-        self.theta_range = conf.get('theta_range', default = [20,70])
-        self.sample_num = conf.get('sample_num', default = 6)
-        self.r = conf.get('r',default=1.0)
-        self.shift =np.array(self.conf.get('shift',[0,0,0]))
-        self.target = conf.get('target', default = [0,0,0])
+        self.theta_range = conf.get('theta_range', [20, 70])
+        self.sample_num = conf.get('sample_num', 6)
+        self.r = conf.get('r', 1.0)
+        self.shift = np.array(self.conf.get('shift', [0, 0, 0]))
+        self.target = conf.get('target', [0, 0, 0])
 
         self.pose_list = self.sphere_uniform_random_sample()
         self.img_num = len(self.pose_list)
 
     def sphere_uniform_random_sample(self):
         theta = np.random.uniform(*self.theta_range, self.sample_num)
-        phi = np.random.uniform(0,360, self.sample_num)
+        phi = np.random.uniform(0, 360, self.sample_num)
         x,y,z = spherical2cartesian(theta, phi, self.r)
         positions = np.stack([x,y,z],axis=1)
         positions += self.shift[np.newaxis]
@@ -82,11 +82,11 @@ class SphericalRandomPose:
 class SphericalFibonacciPose:
     def __init__(self, conf):
         self.conf = conf
-        self.theta_range = conf.get('theta_range', default = [20,70])
-        self.sample_num = conf.get('sample_num', default = 6)
-        self.r = conf.get('r',default=1.0)
-        self.shift =np.array(self.conf.get('shift',[0,0,0]))
-        self.target = conf.get('target', default = [0,0,0])
+        self.theta_range = conf.get('theta_range', [20, 70])
+        self.sample_num = conf.get('sample_num', 6)
+        self.r = conf.get('r', 1.0)
+        self.shift = np.array(self.conf.get('shift', [0, 0, 0]))
+        self.target = conf.get('target', [0, 0, 0])
 
         self.pose_list = self.sphere_uniform_sample()
         self.img_num = len(self.pose_list)
