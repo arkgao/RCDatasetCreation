@@ -143,9 +143,7 @@ Both backends trace refraction through the transparent mesh and produce the same
 
 ## Notes on Reproduction
 
-- The released code filters correspondences that project outside the image plane.
-- The original paper data accidentally omitted that filtering step.
-- If exact reproduction of the original rendered data matters more than the corrected behavior, remove the `inside_mask` filtering in the dataset generation path.
+The released code filters correspondences that project outside the image plane. But the original paper data accidentally omitted that filtering step. Users working with the released dataset do not have to re-render the data to handle this issue: at load time, they can manually reject correspondences whose coordinates satisfy `correspondence < 0` or `correspondence > 1`, which removes samples projected outside the normalized image plane. If exact reproduction of the original rendered data matters more than the corrected behavior, remove the `inside_mask` filtering in the dataset generation path.
 
 The refractive residual inside the object region is also not expected to be exactly zero. This is mainly due to approximation sources in the current rendering and correspondence pipeline, including pixel-center handling, finite sampling, and the fact that the correspondence-based formulation does not explicitly model all reflection effects.
 
